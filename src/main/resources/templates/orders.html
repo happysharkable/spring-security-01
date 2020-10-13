@@ -15,7 +15,24 @@
 
 <div class="container">
     <div th:replace="~{navigation :: navigation(Orders)}"/>
-    <h1>В разработке!!!</h1>
+    <h3 th:text="${'Заказы пользователя ' + username}"></h3>
+    <span th:if="${orders.isEmpty()}">Заказов нет</span>
+    <table th:if="${!orders.isEmpty()}" class="table table-hover" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>Товары</th>
+            <th>Стоимость</th>
+        </tr>
+        <tbody>
+        <tr th:each="o : ${orders}">
+            <td>
+                <ul class="list-group" th:each="oi : ${o.items}">
+                    <li class="list-group-item" th:text="${oi.product.title} + ', ' + ${oi.quantity} + '.шт'"/>
+                </ul>
+            </td>
+            <td th:text="${o.price}">
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

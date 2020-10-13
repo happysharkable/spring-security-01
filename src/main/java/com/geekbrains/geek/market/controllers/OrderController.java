@@ -23,8 +23,10 @@ public class OrderController {
     private Cart cart;
 
     @GetMapping
-    public String showOrders(Model model) {
-        model.addAttribute("orders", orderService.findAll());
+    public String showOrders(Principal principal, Model model) {
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("orders", orderService.findOrdersByUserId(user.getId()));
         return "orders";
     }
 
