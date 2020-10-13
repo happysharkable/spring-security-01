@@ -19,11 +19,13 @@
     <span th:if="${orders.isEmpty()}">Заказов нет</span>
     <table th:if="${!orders.isEmpty()}" class="table table-hover" cellpadding="0" cellspacing="0">
         <tr>
+            <th>ID заказа</th>
             <th>Товары</th>
             <th>Стоимость</th>
         </tr>
         <tbody>
         <tr th:each="o : ${orders}">
+            <td th:text="${o.id}">
             <td>
                 <ul class="list-group" th:each="oi : ${o.items}">
                     <li class="list-group-item" th:text="${oi.product.title} + ', ' + ${oi.quantity} + '.шт'"/>
