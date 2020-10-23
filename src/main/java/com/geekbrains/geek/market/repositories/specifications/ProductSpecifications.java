@@ -15,4 +15,8 @@ public class ProductSpecifications {
     public static Specification<Product> titleLike(String titlePart) {
         return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart)); // where p.title like %titlePart%
     }
+
+    public static Specification<Product> categoryIs(int categoryId) {
+        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), categoryId); // where p.category_id = categoryId
+    }
 }

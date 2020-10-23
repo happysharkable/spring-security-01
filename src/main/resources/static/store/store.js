@@ -9,11 +9,13 @@ angular.module('app').controller('storeController', function ($scope, $http) {
                 title: $scope.filter ? $scope.filter.title : null,
                 min_price: $scope.filter ? $scope.filter.min_price : null,
                 max_price: $scope.filter ? $scope.filter.max_price : null,
+                category_id: $scope.filter ? $scope.filter.category_id : null,
                 p: pageIndex
             }
         })
             .then(function (response) {
-                $scope.ProductsPage = response.data;
+                $scope.ProductsPage = response.data.products;
+                $scope.Categories = response.data.categories;
                 $scope.PaginationArray = $scope.generatePagesInd(1, $scope.ProductsPage.totalPages);
             });
     };
@@ -26,6 +28,11 @@ angular.module('app').controller('storeController', function ($scope, $http) {
             .then(function (response) {
                 console.log('ok');
             });
+    }
+
+    $scope.clearFilter = function () {
+        $scope.filter = null;
+        $scope.fillTable();
     }
 
     $scope.generatePagesInd = function(startPage, endPage) {
