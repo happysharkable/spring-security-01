@@ -8,9 +8,14 @@ import org.springframework.context.annotation.Profile;
 @SpringBootApplication
 public class GeekMarketApplication {
 	// Домашнее задание:
-	// 1. Добавьте отображение заказов только текущего пользователя (на странице orders)
-	// * 2. Попробуйте реализовать регистрацию пользователей
-	// Работаем пока с thymeleaf в ДЗ
+	// 1. Добавьте категории для продуктов
+	// 2. Сделайте на фронтенде фильтр по категориям (выпадающий список с категориями)
+	// 3. * Вместо пункта 2 сделайте фильтр по нескольким категориям (1+)
+
+	// План на следующее занятие:
+	// 1. Токены
+	// 2. Валидация
+	// 3. Оформление заказов
 
 	public static void main(String[] args) {
 		SpringApplication.run(GeekMarketApplication.class, args);
