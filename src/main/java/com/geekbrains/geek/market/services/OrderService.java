@@ -20,6 +20,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Order> findOrdersByUserId(Long id) { return orderRepository.findAllByUserId(id); };
+
     public Order save(Order order) {
         return orderRepository.save(order);
     }
