@@ -1,70 +1,62 @@
 package com.geekbrains.geek.market.controllers;
 
+import com.geekbrains.geek.market.dto.ProductDto;
 import com.geekbrains.geek.market.entities.Product;
 import com.geekbrains.geek.market.exceptions.ResourceNotFoundException;
 import com.geekbrains.geek.market.services.ProductService;
 import com.geekbrains.geek.market.utils.ProductFilter;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/products")
-@AllArgsConstructor
+@RestController
+@RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
-    @GetMapping
-    public String showAllProducts(Model model,
-                                  @RequestParam(defaultValue = "1", name = "p") Integer page,
-                                  @RequestParam Map<String, String> params
-                                  ) {
+    @GetMapping(produces = "application/json") // /api/v1/products
+    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
+                                        @RequestParam Map<String, String> params) {
         if (page < 1) {
             page = 1;
         }
         ProductFilter productFilter = new ProductFilter(params);
-        Page<Product> products = productService.findAll(productFilter.getSpec(), page - 1, 5);
-        model.addAttribute("products", products);
-        model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
-        return "products";
+        Page<Product> content = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        Page<ProductDto> out = new PageImpl<>(content.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
+        return out;
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public Product getOneProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exists"));
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unable to find product with id: " + id));
     }
 
-    @PostMapping("/showme")
-    public void showMeObject(@RequestBody Product p) {
-        System.out.println(p);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public Product createProduct(@RequestBody Product p) {
+        p.setId(null);
+        return productService.saveOrUpdate(p);
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        Product p = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exists (for edit)"));
-        model.addAttribute("product", p);
-        return "edit_product";
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    public Product updateProduct(@RequestBody Product p) {
+        return productService.saveOrUpdate(p);
     }
 
-    @PostMapping("/edit")
-    public String showEditForm(@ModelAttribute Product product) {
-        productService.saveOrUpdate(product);
-        return "redirect:/products";
+    @DeleteMapping
+    public void deleteAll() {
+        productService.deleteAll();
     }
 
-    @GetMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public String deleteOneProductById(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
         productService.deleteById(id);
-        return "ok";
     }
 }
