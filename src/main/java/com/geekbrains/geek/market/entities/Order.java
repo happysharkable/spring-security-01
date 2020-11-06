@@ -44,6 +44,5 @@ public class Order {
             oi.setOrder(this);
             items.add(oi);
         });
-        cart.clear();
     }
 }
