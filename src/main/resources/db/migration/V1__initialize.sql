@@ -12,12 +12,18 @@ create table roles (
   primary key (id)
 );
 
-CREATE TABLE users_roles (
+create table users_roles (
   user_id               bigint not null,
   role_id               int not null,
   primary key (user_id, role_id),
   foreign key (user_id) references users (id),
   foreign key (role_id) references roles (id)
+);
+
+create table profiles (
+  id                    bigserial primary key,
+  user_id               bigint references users(id),
+  hobbies               varchar(255)
 );
 
 insert into roles (name)
@@ -27,6 +33,10 @@ values
 insert into users (username, password, email)
 values
 ('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com');
+
+insert into profiles (user_id, hobbies)
+values
+(1, 'Programming');
 
 insert into users_roles (user_id, role_id) values (1, 1), (1, 2);
 
