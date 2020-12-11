@@ -26,9 +26,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @OneToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
+//    @OneToOne
+//    @JoinColumn(name = "profile_id")
+//    private Profile profile;
 
     @ManyToMany
     @JoinTable(name = "users_roles",
