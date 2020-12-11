@@ -23,17 +23,20 @@
                 templateUrl: 'admin/admin.html',
                 controller: 'adminController'
             })
-            .when('/orders', {
-                templateUrl: 'orders/orders.html',
-                controller: 'orderController'
+            .when('/cart', {
+                templateUrl: 'cart/cart.html',
+                controller: 'cartController'
             })
             .when('/profile', {
                 templateUrl: 'profile/profile.html',
                 controller: 'profileController'
             })
-            .when('/cart', {
-                templateUrl: 'cart/cart.html',
-                controller: 'cartController'
+            .when('/register', {
+                templateUrl: 'register/register.html',
+                controller: 'registerController'
+            })
+            .otherwise({
+                redirectTo: '/'
             });
 
         $httpProvider.interceptors.push(function ($q, $location) {

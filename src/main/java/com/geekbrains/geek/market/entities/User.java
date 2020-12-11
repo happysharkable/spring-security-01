@@ -1,6 +1,8 @@
 package com.geekbrains.geek.market.entities;
 
+import com.geekbrains.geek.market.dto.SystemUserDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -8,6 +10,7 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name = "users")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +35,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+
 }

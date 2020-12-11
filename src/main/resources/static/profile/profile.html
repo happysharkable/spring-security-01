@@ -1,38 +1,21 @@
 <div>
     <h3>Профиль</h3>
-    <form novalidate ng-submit="changeProfile()">
+    <form novalidate ng-submit="submitUpdateProfile()">
+        <input class="form-control" type="number" hidden ng-model="profile.id">
         <div class="form-group col-md-6">
-            <label for="firstname">Имя</label>
-            <input class="form-control" type="text" ng-model="Profile.firstname" id="firstname">
+            <label for="elementUsername">Имя пользователя</label>
+            <input ng-readonly="true" class="form-control" type="text" ng-model="profile.username" id="elementUsername">
         </div>
         <div class="form-group col-md-6">
-            <label for="lastname">Фамилия</label>
-            <input class="form-control" type="text" ng-model="Profile.lastname" id="lastname">
+            <label for="elementHobbies">Хобби</label>
+            <input class="form-control" type="text" ng-model="profile.hobbies" id="elementHobbies">
         </div>
         <div class="form-group col-md-6">
-            <label for="phone">Телефон</label>
-            <input class="form-control" type="text" ng-model="Profile.phone" id="phone">
+            <label for="elementPass">Пароль подтверждения</label>
+            <input class="form-control" type="password" ng-model="profile.confirmationPassword" id="elementPass">
         </div>
-        <div class="form-group col-md-6">
-            <label for="email">Email</label>
-            <input class="form-control" type="text" ng-model="Profile.email" id="email">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="birthyear">Год рождения</label>
-            <input class="form-control" type="number" ng-model="Profile.birthyear" id="birthyear">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="gender">Пол</label>
-            <input class="form-control" type="text" ng-model="Profile.gender" id="gender">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="city">Город</label>
-            <input class="form-control" type="text" ng-model="Profile.city" id="city">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="password">Введите пароль:</label>
-            <input class="form-control" type="password" ng-model="password" id="password">
-            <button class="btn btn-danger" type="submit">Изменить</button>
+        <div>
+            <button class="btn btn-success" type="submit">Сохранить</button>
         </div>
     </form>
 </div>

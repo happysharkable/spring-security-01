@@ -1,36 +1,20 @@
 angular.module('app').controller('profileController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/market';
 
-    $scope.getProfile = function () {
-        $http({
-            url: contextPath + '/api/v1/profile',
-            method: 'GET'
-        })
+    $scope.submitUpdateProfile = function () {
+        $http.put(contextPath + '/api/v1/profile', $scope.profile)
             .then(function (response) {
-                $scope.Profile = response.data;
+                $scope.loadProfile();
+                alert('Профиль обновлен');
             });
     };
 
-    $scope.changeProfile = function () {
-        $http({
-            url: contextPath + '/api/v1/profile',
-            method: 'POST',
-            params: {
-                firstname: $scope.Profile.firstname,
-                lastname: $scope.Profile.lastname,
-                phone: $scope.Profile.phone,
-                email: $scope.Profile.email,
-                birthyear: $scope.Profile.birthyear,
-                gender: $scope.Profile.gender,
-                city: $scope.Profile.city,
-                password: $scope.password
-            }
-        })
+    $scope.loadProfile = function () {
+        $http.get(contextPath + '/api/v1/profile')
             .then(function (response) {
-                $scope.getProfile();
+                $scope.profile = response.data;
             });
+    }
 
-    };
-
-    $scope.getProfile();
+    $scope.loadProfile();
 });
